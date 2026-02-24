@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import connectDB from './configs/db'
 import { errorHandler } from './middlewares/errorHandler'
 import { notFoundHandler } from './middlewares/notFoundHandler'
+import { AppError } from './utils/appError'
 
 dotenv.config()
 
