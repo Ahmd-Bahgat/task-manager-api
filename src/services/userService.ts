@@ -1,9 +1,10 @@
-import { IUser, UserModel } from "../models/userModel";
+import { UserModel } from "../models/userModel";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { AppError } from "../utils/appError";
+import { RegisterInput } from "../validation/userValidate";
 
-export const register = async (data: IUser) => {
+export const register = async (data: RegisterInput) => {
   const exists = await UserModel.findOne({ email: data.email });
   if (exists) {
     throw new AppError("User already exists", 400);
