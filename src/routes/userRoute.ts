@@ -1,16 +1,17 @@
-import express, {Request, Response} from "express";
+import express, { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
 import { zUserSchema } from "../validation/userValidate";
 import { AppError } from "../utils/appError";
 import { register } from "../services/userService";
-import { userRegisterController } from "../controllers/userController";
-
+import {
+  userLoginController,
+  userRegisterController,
+} from "../controllers/userController";
 
 const router = express.Router();
 
-router.post(
-  "/register",
-  asyncHandler(userRegisterController),
-);
+router.post("/register", asyncHandler(userRegisterController));
 
-export default router
+router.post("/login", asyncHandler(userLoginController));
+
+export default router;

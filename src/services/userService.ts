@@ -2,7 +2,7 @@ import { UserModel } from "../models/userModel";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { AppError } from "../utils/appError";
-import { RegisterInput } from "../validation/userValidate";
+import { LoginInput, RegisterInput } from "../validation/userValidate";
 
 export const register = async (data: RegisterInput) => {
   const exists = await UserModel.findOne({ email: data.email });
@@ -26,14 +26,36 @@ export const register = async (data: RegisterInput) => {
   };
 };
 
-const generateJWT = (payload: string) => {
+export const login = async (data: LoginInput) => {
+  const user = await UserModel.findOne({ email: data.email }).select('+password');
+  if (!user) {
+    throw new AppError("Incorrect email or password", 400);
+  }
+  const isMatch =
+    data.password && user.password
+      ? await bcrypt.compare(data.password, user.password)
+      : false;
+  if (!isMatch) {
+    throw new AppError("Incorrect email or password", 400);
+  }
+  return {
+    token: generateJWT(user._id.toString()),
+    user: {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    },
+  };
+};
+
+const generateJWT = (userId: string): string => {
   if (!process.env.SECRET_KEY) {
     throw new AppError("SECRET_KEY is not defined", 500);
   }
-  if (!payload) {
+  if (!userId) {
     throw new AppError("payload not found", 400);
   }
-  return jwt.sign({ userId: payload }, process.env.SECRET_KEY, {
+  return jwt.sign({ userId: userId }, process.env.SECRET_KEY as string, {
     expiresIn: "7d",
   });
 };

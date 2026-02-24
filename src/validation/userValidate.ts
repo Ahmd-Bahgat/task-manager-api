@@ -7,4 +7,11 @@ export const zUserSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-export type RegisterInput = z.infer<typeof zUserSchema>
+export type RegisterInput = z.infer<typeof zUserSchema>;
+
+export const zLoginSchema = z.object({
+  email: z.email("Invalid email format").lowercase(),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+export type LoginInput = z.infer<typeof zLoginSchema>
