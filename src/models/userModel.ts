@@ -15,14 +15,14 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: [true, "Name is required"],
       trim: true,
-      minlength: 3,
+      minlength: 2,
       maxlength: 50,
     },
     lastName: {
       type: String,
       required: [true, "Name is required"],
       trim: true,
-      minlength: 3,
+      minlength: 2,
       maxlength: 50,
     },
 
