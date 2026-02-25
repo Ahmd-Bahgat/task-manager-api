@@ -7,11 +7,12 @@ import {
   userLoginController,
   userRegisterController,
 } from "../controllers/userController";
+import validateJWT from "../middlewares/validateJWT";
 
 const router = express.Router();
 
 router.post("/register", asyncHandler(userRegisterController));
 
-router.post("/login", asyncHandler(userLoginController));
+router.post("/login" ,asyncHandler(userLoginController));
 
 export default router;
