@@ -5,6 +5,7 @@ import { errorHandler } from './middlewares/errorHandler'
 import { notFoundHandler } from './middlewares/notFoundHandler'
 import userRoute from './routes/userRoute'
 import projectRoute from './routes/projectRoute'
+import taskRoute from './routes/taskRoute'
 
 dotenv.config()
 
@@ -18,6 +19,7 @@ const port = process.env.PORT ?? 3000
 
 app.use('/users', userRoute)
 app.use('/', projectRoute)
+app.use('/', taskRoute)
 
 app.use(notFoundHandler)
 app.use(errorHandler)
